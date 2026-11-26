@@ -122,11 +122,17 @@ automation:
 
 fidelity:
   divergences: >-
-    None relative to google-deepmind/formal-conjectures commit
-    9097e2f90e66d2f6244209cb1c07f7120d17ec53. Relative to DeLaViña's original 2009
-    WOWII #372 wording, paths (p(T) = 1) make the quotient τ/(p - 1) undefined; the
-    ratio theorem restricts to p(T) ≥ 2 while the two-path and regularized variants
-    cover all finite trees with n ≥ 2.
+    For Palomar Comparator compatibility (which requires every entry in
+    definition_names to be a Lean def rather than a structure),
+    SimpleGraph.IsTotalNDominatingSet is defined as the equivalent Prop-valued
+    def (G.IsTotalDominating D ∧ D.card = n) rather than a structure;
+    SimpleGraph.totalDominationNumber and all three upstream theorem types from
+    google-deepmind/formal-conjectures commit
+    9097e2f90e66d2f6244209cb1c07f7120d17ec53 are mathematically identical.
+    Relative to DeLaViña's original 2009 WOWII #372 wording, paths (p(T) = 1)
+    make the quotient τ/(p - 1) undefined; the ratio theorem restricts to
+    p(T) ≥ 2 while the two-path and regularized variants cover all finite trees
+    with n ≥ 2.
 
 review:
   status: "agent-reviewed"

@@ -208,7 +208,7 @@ private theorem certified (t : Tree) (hp : t.pathsOK) (hd : t.innerDominated) :
     have hv : validTransition l.state r.state cut = true := by
       simp [validTransition, state, dom, lk, rk]
     unfold tableCheck at ck
-    rw [if_pos hv, ha, hb] at ck
+    rw [ite_eq_left hv, ha, hb] at ck
     cases hc : potential (joined l.state r.state cut) with
     | none => simp [hc] at ck
     | some c =>
@@ -365,7 +365,7 @@ noncomputable def minimum (P : Nat → Prop) : Nat := by
 
 private theorem minimum_spec {P : Nat → Prop} (h : ∃ n, P n) :
     P (minimum P) ∧ ∀ m, P m → minimum P ≤ m := by
-  simpa only [minimum, dif_pos h] using (min_exists h).choose_spec
+  simpa only [minimum, dite_eq_left h] using (min_exists h).choose_spec
 
 noncomputable def vertexCoverNumber (s : Shape) : Nat :=
   minimum fun n => ∃ v, s.isCover v ∧ s.size v = n

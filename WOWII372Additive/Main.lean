@@ -1,5 +1,5 @@
 module
-public import Mathlib.Data.Real.Basic
+public import Mathlib.Basic.Real.Basic
 public import WOWII372Additive.TreeModel
 public import WOWII372Additive.LabeledTree
 public import WOWII372Additive.InvariantBounds
@@ -133,7 +133,7 @@ theorem additive_of_two_le (hT : T.IsTree) (hn : 2 ≤ Fintype.card α)
     (hp : 2 ≤ T.pathCoverNumber) :
     T.vertexCoverNum.toNat ≤ T.totalDominationNumber + T.pathCoverNumber - 2 := by
   have bound := additive T hT hn
-  rw [if_pos (show 1 < T.pathCoverNumber from hp)] at bound
+  rw [ite_eq_left (show 1 < T.pathCoverNumber from hp)] at bound
   omega
 
 /-- The numerator is bounded by total domination times the regularizing factor. -/

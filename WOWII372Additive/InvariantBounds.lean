@@ -56,17 +56,17 @@ theorem additive_of_covers (hT : T.IsTree) (hn : 2 ≤ Fintype.card α)
       T.totalDominationNumber + (T.pathCoverNumber - 1) := by
   obtain ⟨P,pc,hp⟩ := pathCover_attained T
   obtain ⟨D,hd⟩ := tdom_attained hT hn
-  obtain ⟨S,hs,b⟩ := makeCover P D hp hd.isTotalDominating
+  obtain ⟨S,hs,b⟩ := makeCover P D hp hd.1
   have hv := vertexCoverNum_le_card hs
-  rw [pc, hd.card_eq] at b
+  rw [pc, hd.2] at b
   omega
 
 omit [DecidableEq α] in
 theorem tdom_pos (hT : T.IsTree) (hn : 2 ≤ Fintype.card α) : 0 < T.totalDominationNumber := by
   have : Nontrivial α := Fintype.one_lt_card_iff_nontrivial.mp hn
   obtain ⟨D,hD⟩ := tdom_attained hT hn
-  obtain ⟨w,hw,_⟩ := hD.isTotalDominating (Classical.arbitrary α)
-  rw [← hD.card_eq]
+  obtain ⟨w,hw,_⟩ := hD.1 (Classical.arbitrary α)
+  rw [← hD.2]
   exact Finset.card_pos.mpr ⟨w,hw⟩
 
 theorem regularized_of_additive (hT : T.IsTree) (hn : 2 ≤ Fintype.card α)

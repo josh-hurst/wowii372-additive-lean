@@ -19,7 +19,7 @@ module
 public import Mathlib.Combinatorics.SimpleGraph.Acyclic
 public import Mathlib.Combinatorics.SimpleGraph.Paths
 public import Mathlib.Combinatorics.SimpleGraph.VertexCover
-public import Mathlib.Data.Real.Basic
+public import Mathlib.Basic.Real.Basic
 public import Mathlib.Order.Lattice.Nat
 
 @[expose] public section
@@ -66,10 +66,8 @@ def IsTotalDominating (G : SimpleGraph α) (D : Set α) : Prop :=
   ∀ v, ∃ w ∈ D, G.Adj v w
 
 /-- An `n`-total dominating set is a total dominating set with `n` vertices. -/
-@[mk_iff]
-structure IsTotalNDominatingSet {G : SimpleGraph α} (n : ℕ) (D : Finset α) : Prop where
-  isTotalDominating : G.IsTotalDominating D
-  card_eq : D.card = n
+def IsTotalNDominatingSet (G : SimpleGraph α) (n : ℕ) (D : Finset α) : Prop :=
+  G.IsTotalDominating D ∧ D.card = n
 
 /-- The total domination number of `G`. -/
 noncomputable def totalDominationNumber (G : SimpleGraph α) : ℕ :=

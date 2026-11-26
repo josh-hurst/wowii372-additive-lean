@@ -406,11 +406,11 @@ private theorem exists_iso_of_isTree_aux :
           left_inv := by
             rintro (a | b)
             · dsimp only
-              rw [dif_pos (el a).prop]
+              rw [dite_eq_left (el a).prop]
               exact congrArg Sum.inl (el.symm_apply_apply a)
             · dsimp only
               have hnot : (er b).val ∉ cx := fun h => hdisj _ h (er b).prop
-              rw [dif_neg hnot]
+              rw [dite_eq_right hnot]
               exact congrArg Sum.inr (er.symm_apply_apply b)
           right_inv := by
             intro v
