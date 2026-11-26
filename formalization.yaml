@@ -1,0 +1,172 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Written on the Wall II Conjecture 372: Sharp Additive Tree Bound in Lean 4"
+  description: >-
+    A Lean 4 / Mathlib proof establishing the sharp additive inequality
+    τ(T) ≤ γ_t(T) + p(T) - 2 for every finite simple tree T on at least two vertices
+    with path cover number p(T) ≥ 2, where τ(T) is the vertex cover number, γ_t(T) is
+    the total domination number, and p(T) is the minimum number of pairwise
+    vertex-disjoint paths covering V(T) (singletons allowed). Because
+    γ_t(T) + p(T) - 2 ≤ γ_t(T) · (p(T) - 1) for all γ_t ≥ 2 and p ≥ 2 (strictly
+    stronger whenever p ≥ 3), this immediately proves all three upstream statements of
+    Written on the Wall II Conjecture 372 in google-deepmind/formal-conjectures
+    (conjecture372, variants.two_paths, and variants.regularized). The formal proof
+    uses an original rooted-tree structural induction certified by a kernel-checked
+    finite-state potential table, bridged directly to Mathlib's SimpleGraph.IsTree and
+    SimpleGraph.vertexCoverNum with only the standard axioms.
+  authors:
+    - "Josh Hurst"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Josh Hurst"
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05C69", "05C05", "05C70", "05C38"]
+
+sources:
+  - title: "Written on the Wall II: Conjectures of Graffiti.pc, Conjecture 372"
+    authors:
+      - "Ermelinda DeLaViña"
+    id: "WOWII-372"
+    type: "other"
+    location: "https://web.archive.org/web/20260723161800id_/http://cms.uhd.edu/faculty/delavinae/research/wowII/all.html"
+    relationship: "formalizes"
+    note: >-
+      Conjecture 372 (18 February 2009) asserts γ_t(T) ≥ τ(T) / (p(T) - 1) for trees
+      of order > 2. The August 2009 archive note records the case p(T) ≥ 3 via
+      γ_t(T) ≥ 2(τ(T) + 1)/3. Because p(T) = 1 makes the printed quotient undefined on
+      paths, this formalization follows Formal Conjectures in proving the quotient on
+      p(T) ≥ 2 along with the two-path and regularized variants, as well as the
+      stronger additive bound τ(T) ≤ γ_t(T) + p(T) - 2.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "Total domination and vertex covers of trees covered by two paths: A resolution of Written on the Wall II Conjecture 372 on its defined domain"
+    authors:
+      - "Jonas J. Gebendorfer"
+    id: "doi:10.13140/RG.2.2.25035.55849"
+    type: "paper"
+    location: "https://doi.org/10.13140/RG.2.2.25035.55849"
+    relationship: "independently-proves"
+    note: >-
+      Preprint dated 28 October 2026 claiming a written proof of WOWII Conjecture 372
+      and its two-path and regularized variants. The full manuscript text was not
+      accessible during this development (only its public abstract and upstream issue
+      #7791 metadata were inspected). Our proof was derived independently via a
+      rooted-tree finite-state potential induction and proves the stronger additive
+      bound τ(T) ≤ γ_t(T) + p(T) - 2; priority for the additive strengthening relative
+      to Gebendorfer's full manuscript and prior domination literature has not been
+      established and is not claimed.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "https://github.com/google-deepmind/formal-conjectures/blob/9097e2f90e66d2f6244209cb1c07f7120d17ec53/FormalConjectures/WrittenOnTheWallII/GraphConjecture372.lean"
+    relationship: "builds-on"
+    note: >-
+      The invariant definitions (IsPathCover, pathCoverNumber, IsTotalDominating,
+      IsTotalNDominatingSet, totalDominationNumber) and the three theorem signatures
+      conjecture372, conjecture372.variants.two_paths, and
+      conjecture372.variants.regularized are copied verbatim from commit
+      9097e2f90e66d2f6244209cb1c07f7120d17ec53.
+  - id: "https://github.com/8xp4jtb47i5h/wowii372-lean"
+    relationship: "independent"
+    note: >-
+      Independent earlier Lean 4 formalization (pushed 2026-11-25 17:45 UTC) of the
+      three original WOWII #372 statements using the 2009 2τ + 2 ≤ 3|D| bound for
+      p ≥ 3 and a path-numbering argument for p ≤ 2. Our proof was developed without
+      consulting that repository, uses a distinct 48-state rooted-tree structural
+      induction, and additionally formalizes the strictly stronger additive theorem
+      additive_of_two_le (τ(T) ≤ γ_t(T) + p(T) - 2 for p(T) ≥ 2).
+
+status:
+  scope: >-
+    Proves all four compared declarations in full without sorry or native_decide:
+    additive_of_two_le (τ(T) ≤ γ_t(T) + p(T) - 2 for finite trees with n ≥ 2 and
+    p(T) ≥ 2) and all three Formal Conjectures declarations (conjecture372,
+    conjecture372.variants.two_paths, conjecture372.variants.regularized).
+    Sharpness equality constructions for every p ≥ 2 are verified on paper and by
+    independent finite checks (9,114,284 unlabeled trees through n = 22), but are not
+    formalized in Lean.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["gpt-6.2-astra", "gemini-4-neon"]
+      framework: "T3 Code"
+      tool_setup: >-
+        Multi-agent workflow orchestrated by Josh Hurst in T3 Code: Gemini 4 Neon
+        research/referee/bridge sub-agents and a GPT-6.2 Astra lead agent discovered
+        the additive strengthening, synthesized a 48-state rooted-tree potential table
+        via a 16-line Python fixed-point solver, wrote the Lean 4 proof and Mathlib
+        bridges, and ran independent C++/nauty verification across all 9,114,284
+        unlabeled trees on 2 ≤ n ≤ 22.
+      cost:
+        wall_time: "~75 minutes for proof discovery and initial Lean 4 formalization"
+        spend_usd: "subscription-based"
+        hardware: "Apple Silicon Mac (local Lean/C++ builds) and GitHub Actions"
+      prompting_notes: >-
+        Human selected the WOWII target set, directed the multi-agent architecture,
+        requested independent adversarial reviews, audited provenance against prior
+        repositories, and directed Palomar packaging.
+  spend_usd: "subscription-based"
+  notes: >-
+    All mathematical proofs and Lean 4 source files were generated by AI agents under
+    human direction and verified mechanically by Lean's kernel, leanchecker --fresh,
+    and Palomar Comparator / NanoDa preflight.
+
+fidelity:
+  divergences: >-
+    None relative to google-deepmind/formal-conjectures commit
+    9097e2f90e66d2f6244209cb1c07f7120d17ec53. Relative to DeLaViña's original 2009
+    WOWII #372 wording, paths (p(T) = 1) make the quotient τ/(p - 1) undefined; the
+    ratio theorem restricts to p(T) ≥ 2 while the two-path and regularized variants
+    cover all finite trees with n ≥ 2.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Josh Hurst (workflow oversight and provenance audit)"
+    - "Independent adversarial AI referee runs (Gemini 4 Neon)"
+  notes: >-
+    The underlying elementary counting proof, the finite-state potential transition
+    table (all 4,608 transitions), and exact byte-for-byte alignment with the
+    upstream Formal Conjectures declarations were audited by two independent
+    adversarial agent reviews and replayed from scratch with leanchecker --fresh.
+    No human domain-expert mathematical referee has reviewed the repository.
+
+alignment:
+  namespace: "WrittenOnTheWallII.GraphConjecture372"
+  statements:
+    - source: "Sharp additive bound τ(T) ≤ γ_t(T) + p(T) - 2 (p(T) ≥ 2)"
+      lean: "WrittenOnTheWallII.GraphConjecture372.additive_of_two_le"
+      module: "Solution"
+      status: "proved"
+      note: >-
+        Strictly strengthens WOWII #372 for every p(T) ≥ 3 and coincides with the
+        two-path theorem at p(T) = 2; sharp for every p ≥ 2 (equality trees verified
+        on paper and computationally, not formalized in Lean).
+    - source: "WOWII Conjecture 372 (positive-denominator domain)"
+      lean: "WrittenOnTheWallII.GraphConjecture372.conjecture372"
+      module: "Solution"
+      status: "proved"
+      note: "Exact signature from FormalConjectures/WrittenOnTheWallII/GraphConjecture372.lean."
+    - source: "WOWII Conjecture 372 two-path variant (p(T) ≤ 2)"
+      lean: "WrittenOnTheWallII.GraphConjecture372.conjecture372.variants.two_paths"
+      module: "Solution"
+      status: "proved"
+      note: "Exact signature from FormalConjectures/WrittenOnTheWallII/GraphConjecture372.lean."
+    - source: "WOWII Conjecture 372 regularized variant (all trees n ≥ 2)"
+      lean: "WrittenOnTheWallII.GraphConjecture372.conjecture372.variants.regularized"
+      module: "Solution"
+      status: "proved"
+      note: "Exact signature from FormalConjectures/WrittenOnTheWallII/GraphConjecture372.lean."
+
+acknowledgements: >-
+  Built on Lean 4, Mathlib, the PalomarTemplate starter repository, and invariant
+  definitions from Google DeepMind's Formal Conjectures repository.
